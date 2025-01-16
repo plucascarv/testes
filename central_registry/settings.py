@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'central_registry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'api',
-        'USER': 'api',
-        'PASSWORD': '123456',
+        'NAME': 'testdb',
+        'USER': 'testuser',
+        'PASSWORD': 'testpassword',
         'HOST': 'localhost',
         'PORT': '5432',
     }
