@@ -35,26 +35,32 @@ Esta aplicação instrumentaliza uma API RESTful para manipular um banco de dado
 git clone git@github.com:XlipeDCodder/testes.git && cd testes/
 ```
 
-3. Construa e orquestre os containers
+3. Copie o arquivo .env-example para um arquivo denominado .env
+
+``` shell
+cp .env-example .env
+```
+
+4. Construa e orquestre os containers
 
 ``` shell
 docker compose up -d --build
 ```
 
-4. Utilizando a extensão Docker no VSCode, clique com o botão direito no container testes-web e abra um terminal (Attach Shell ou Conectar Terminal)
+5. Utilizando a extensão Docker no VSCode, clique com o botão direito no container testes-web e abra um terminal (Attach Shell ou Conectar Terminal)
 
-5. No terminal do container testes-web, realize as migrações para popular o banco de dados
+6. No terminal do container testes-web, realize as migrações para popular o banco de dados
 
 ``` shell
 python3 manage.py makemigrations && python3 manage.py migrate
 ```
 
-6. Crie um superusuário na aplicação
+7. Crie um superusuário na aplicação
 
 ``` shell
 python3 manage.py createsuperuser
 ```
 
-7. Visite http://localhost:8000/admin
+8. Visite http://localhost:8000/admin
 
 Use suas credenciais criadas no passo 6 para manipular as entidades no banco de dados

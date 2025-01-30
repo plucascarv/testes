@@ -21,7 +21,7 @@ jobs:
           POSTGRES_USER: testuser
           POSTGRES_PASSWORD: testpassword
         ports:
-          - 5432:5432  
+          - 5432:5432
         options: >-
           --health-cmd="pg_isready -U testuser"  
           --health-interval=10s
@@ -49,8 +49,12 @@ jobs:
       - name: Set up PostgreSQL database
         run: |
           python manage.py migrate  
+        env:
+          SYSTEM_ENV: GITHUB_WORKFLOW
 
      
       - name: Run tests
         run: |
           python manage.py test
+        env:
+          SYSTEM_ENV: GITHUB_WORKFLOW

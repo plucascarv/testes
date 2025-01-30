@@ -24,13 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=n=^n5gisxi1u3px--+r2e@!)j7-80qpr7m-9uab@xsqu!-t*f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
     '.localhost',
     '127.0.0.1',
     '[::1]',
-    'postgres'
 ]
 
 
@@ -80,17 +78,40 @@ WSGI_APPLICATION = 'central_registry.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+DEFAULT_DATABASE = {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB', default='testdb'),
+            'USER': os.environ.get('POSTGRES_USER', default='testuser'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='testpassword'),
+            'HOST': 'postgres',
+            'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
+        }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', default='testdb'),
-        'USER': os.environ.get('POSTGRES_USER', default='testuser'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='testpassword'),
-        'HOST': 'postgres',
-        'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
+SYSTEM_ENV = os.environ.get('SYSTEM_ENV', None)
+if SYSTEM_ENV == 'PRODUCTION' or SYSTEM_ENV == 'STAGING':
+    DEBUG = False
+    DATABASES = {
+        'default': DEFAULT_DATABASE
     }
-}
+
+elif SYSTEM_ENV == 'GITHUB_WORKFLOW':
+    DEBUG = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'testdb',
+            'USER': 'testuser',
+            'PASSWORD': 'testpassword',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
+elif SYSTEM_ENV == 'DEVELOPMENT':
+    DEBUG = True
+    DATABASES = {
+        'default': DEFAULT_DATABASE
+    }
 
 
 # Password validation
