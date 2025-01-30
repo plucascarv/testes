@@ -1,0 +1,13 @@
+.env
+
+.git
+.cache
+
+.venv
+
+*.egg-info
+
+setup.cfg
+__pycache__
+.coverage
+.pytest_cache
