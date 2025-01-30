@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,11 @@ SECRET_KEY = 'django-insecure-=n=^n5gisxi1u3px--+r2e@!)j7-80qpr7m-9uab@xsqu!-t*f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.localhost',
+    '127.0.0.1',
+    '[::1]'
+]
 
 
 # Application definition
@@ -78,11 +83,11 @@ WSGI_APPLICATION = 'central_registry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'testdb',
-        'USER': 'testuser',
-        'PASSWORD': 'testpassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('POSTGRES_NAME', default='testdb'),
+        'USER': os.environ.get('POSTGRES_USER', default='testuser'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='testpassword'),
+        'HOST': 'postgres',
+        'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
     }
 }
 
