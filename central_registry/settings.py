@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '.localhost',
     '127.0.0.1',
-    '[::1]'
+    '[::1]',
+    'postgres'
 ]
 
 
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'central_registry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME', default='testdb'),
+        'NAME': os.environ.get('POSTGRES_DB', default='testdb'),
         'USER': os.environ.get('POSTGRES_USER', default='testuser'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='testpassword'),
         'HOST': 'postgres',
