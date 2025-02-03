@@ -1,9 +1,9 @@
 from rest_framework.routers import DefaultRouter
-from .views import MunicipioViewSet, PessoaViewSet, EnderecoViewSet
+from .views import MunicipalityViewSet, PersonViewSet, AddressViewSet
 
 router = DefaultRouter()
-router.register(r'municipios', MunicipioViewSet)
-router.register(r'pessoas', PessoaViewSet)
-router.register(r'enderecos', EnderecoViewSet)
+router.register(r'municipalities', MunicipalityViewSet)
+router.register(r'persons', PersonViewSet)
+router.register(r'addresses', AddressViewSet)
 
 urlpatterns = router.urls
