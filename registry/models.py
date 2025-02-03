@@ -24,6 +24,51 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome
 
+    def get_ID(self):
+        return self.doc_ident
+
+    def get_data_cadastro(self):
+        return self.data_cadastro
+
+    def get_nome(self):
+        return self.nome
+
+    def get_enderecos(self):
+        return self.enderecos.all()
+
+    def get_contatos(self):
+        return self.contatos.all()
+
+    def validar_endereco(self, endereco):
+        
+        if not endereco.logradouro or not endereco.numero or not endereco.bairro or not endereco.cep:
+            return False
+        
+        if not re.match(r'^\d{5}-\d{3}$', endereco.cep):
+            return False
+        return True
+
+    def validar_contato(self, contato):
+      
+            tipos_validos = ['email', 'telefone']
+      
+            if contato.tipo not in tipos_validos:
+                return False
+
+            if contato.tipo == 'email' and not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', contato.chave):
+                return False
+            if contato.tipo == 'telefone' and not re.match(r'^\+?\d{10,15}$', contato.chave):
+                return False
+            return True
+    
+    def add_contato(self, contato):
+        if self.validar_contato(contato):
+            self.contatos.add(contato)
+
+    def add_endereco(self, endereco):
+        if self.validar_endereco(endereco):
+            self.enderecos.add(endereco)
+
     class Meta:
         verbose_name = 'Pessoa'
         verbose_name_plural = 'Pessoas'
@@ -31,7 +76,7 @@ class Pessoa(models.Model):
 
 class Endereco(models.Model):
     # Relationship fields
-    pessoa = models.OneToOneField(
+    pessoa = models.ForeignKey(
         Pessoa, 
         on_delete=models.CASCADE, 
         related_name="endereco"
