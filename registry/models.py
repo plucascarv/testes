@@ -206,3 +206,37 @@ class PessoaFisica(Pessoa):
     def set_pis(self, pis: str):
         self.pis = pis
         self.save()
+
+
+class PessoaJuridica(Pessoa):
+    cnpj = models.CharField(max_length=18, unique=True)
+    fantasy_name = models.CharField(max_length=255)
+    corporate_reason = models.CharField(max_length=255)
+    bonds = models.ManyToManyField(Pessoa, related_name="vinculos_pj")
+    partners = models.ManyToManyField(Pessoa, related_name="partners_pj")
+    opening_date = models.DateField(null=True, blank=True)
+    closing_date = models.DateField(null=True, blank=True) 
+
+    def __str__(self):
+        return f"CNPJ: {self.cnpj}, NOME: {self.fantasy_name}"
+    
+    def get_cnpj(self):
+        return self.cnpj
+    
+    def get_fantasy_name(self):
+        return self.fantasy_name
+    
+    def get_corporate_reason(self):
+        return self.corporate_reason
+    
+    def get_bonds(self):
+        return self.bonds
+    
+    def get_partners(self):
+        return self.partners
+    
+    def get_opening_date (self):
+        return self.opening_date 
+    
+    def get_closing_date(self):
+        return self.closing_date
