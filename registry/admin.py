@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Municipio, Pessoa, Endereco
-
-admin.site.register(Municipio)
-admin.site.register(Pessoa)
-admin.site.register(Endereco)
+from .models import Municipality, Person, Address
+admin.site.register(Municipality)
+admin.site.register(Person)
+admin.site.register(Address)
