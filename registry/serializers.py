@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Municipio, Pessoa, Endereco, PessoaFisica
+from .models import Municipio, Pessoa, Endereco, PessoaFisica, PessoaJuridica
 
 class MunicipioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,4 +21,9 @@ class EnderecoSerializer(serializers.ModelSerializer):
 class PessoaFisicaSerializer(PessoaSerializer):  # Herda de PessoaSerializer
     class Meta:
         model = PessoaFisica
+        fields = '__all__'
+
+class PessoaJuridicaSerializer(PessoaSerializer):
+    class Meta:
+        model = PessoaJuridica
         fields = '__all__'
