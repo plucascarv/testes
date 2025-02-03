@@ -1,4 +1,48 @@
 from django.db import models
+import re
+
+class Contato(models.Model):
+    id_contato = models.AutoField(primary_key=True)
+    contato_escolhas = [
+        ("telefone", "Telefone"),
+        ("email", "Email")
+    ]
+    tipo = models.CharField(max_length=10, choices=contato_escolhas)
+    chave = models.CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.chave}"
+    
+    def validar_tipo(self, tipo:str):
+        if tipo not in dict(self.contato_escolhas).keys():
+            raise ValueError
+        return True
+    
+    def set_tipo(self, tipo:str):
+        if self.validar_tipo(tipo) is True:
+            self.tipo = tipo
+            self.save()
+
+    def get_tipo(self):
+        return self.tipo
+    
+    def validar_chave(self, chave: str):
+        if not chave.strip():
+            raise ValueError
+        if self.tipo == "telefone" and not re.fullmatch(r'\d{8,15}', chave):
+            raise ValueError
+        if self.tipo == "email" and not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', chave):
+            raise ValueError
+        return True
+
+    def set_chave(self, chave:str):
+        if self.validar_chave(chave) is True:
+            self.chave = chave
+            self.save()
+
+    def get_chave(self):
+        return self.chave
+
 
 class Municipio(models.Model):
     nome = models.CharField(max_length=100)
