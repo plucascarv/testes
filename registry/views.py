@@ -1,19 +1,19 @@
 from django.shortcuts import render
 
 from rest_framework import viewsets
-from .models import Municipio, Pessoa, Endereco
-from .serializers import MunicipioSerializer, PessoaSerializer, EnderecoSerializer
+from .models import Municipality, Person, Address
+from .serializers import MunicipalitySerializer, PersonSerializer, AddressSerializer
 
-class MunicipioViewSet(viewsets.ModelViewSet):
-    queryset = Municipio.objects.all()
-    serializer_class = MunicipioSerializer
-
-
-class PessoaViewSet(viewsets.ModelViewSet):
-    queryset = Pessoa.objects.all()
-    serializer_class = PessoaSerializer
+class MunicipalityViewSet(viewsets.ModelViewSet):
+    queryset = Municipality.objects.all()
+    serializer_class = MunicipalitySerializer
 
 
-class EnderecoViewSet(viewsets.ModelViewSet):
-    queryset = Endereco.objects.all()
-    serializer_class = EnderecoSerializer
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
