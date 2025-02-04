@@ -120,13 +120,8 @@ class Person(models.Model):
 
 class Address(models.Model):
     # Relationship fields
-<<<<<<< HEAD
     pessoa = models.ForeignKey(
         Pessoa, 
-=======
-    person = models.OneToOneField(
-        Person, 
->>>>>>> 982ba790ebfad59bf61251bfd84f8d25ad98b9bc
         on_delete=models.CASCADE, 
         related_name="address"
     )
