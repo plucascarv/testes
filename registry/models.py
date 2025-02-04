@@ -137,7 +137,7 @@ class Person(models.Model):
 class Address(models.Model):
     # Relationship fields
     pessoa = models.ForeignKey(
-        Pessoa, 
+        Person,
         on_delete=models.CASCADE, 
         related_name="address"
     )
