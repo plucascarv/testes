@@ -42,12 +42,30 @@ class Contact(models.Model):
 
     def get_contact_key(self):
         return self.contact_key
-
+    
 class Municipality(models.Model):
-    name = models.CharField(max_length=100)
+    city_name = models.CharField(max_length=100)
+    city_id = models.IntegerField(max_length=100)
+    state = models.CharField(max_length=100)
+    ibge_id = models.IntegerField(max_length=7)
 
     def __str__(self):
-        return self.name
+        return self.city_name
+    
+    def get_city_id(self):
+        return self.city_id
+
+    def get_state(self):
+        return self.state
+
+    def get_name(self):
+        return self.city_name
+
+    def set_ibge_id(self, ibge_id: int):
+        self.ibge_id = ibge_id
+
+    def validate_ibge_id(self, ibge_id: int) -> bool:
+        return isinstance(ibge_id, int) and 1000000 <= ibge_id <= 9999999
     
     class Meta:
         verbose_name = 'Municipality'
@@ -66,8 +84,6 @@ class Person(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
 
     class Meta:
         verbose_name = 'Person'
@@ -92,6 +108,8 @@ class Address(models.Model):
     additional_info = models.CharField(max_length=255, null=True, blank=True)
     neighborhood = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=8)
+    classification = models.CharField(max_length=11)
+    type = models.CharField(max_length=100)
     
     # Additional useful fields
     is_tax_address = models.BooleanField(default=False)
@@ -119,6 +137,29 @@ class Address(models.Model):
         if len(self.zipcode) == 8:
             return f"{self.zipcode[:5]}-{self.zipcode[5:]}"
         return self.zipcode
+    
+    # Methods
+    def get_classification(self):
+        return self.classification
+    
+    def get_type(self):
+        return self.type
+    
+    def get_street(self):
+        return self.street
+    
+    def get_number(self):
+        return self.number
+    
+    def get_complement(self):
+        return self.complement
+    
+    def get_cep(self):
+        return self.cep
+    
+    def validate_type(self, type: str) -> bool:
+        valid_types = ["Residencial", "Comercial", "Industrial"]
+        return type in valid_types
 
     class Meta:
         verbose_name = 'Address'
