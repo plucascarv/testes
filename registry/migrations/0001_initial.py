@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Endereco',
             fields=[
-                ('id_pes', models.models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='endereco', serialize=False, to='registry.pessoa')),
+                ('id_pes', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='endereco', serialize=False, to='registry.pessoa')),
                 ('logradouro', models.CharField(max_length=255)),
                 ('numero', models.CharField(max_length=10)),
                 ('bairro', models.CharField(max_length=100)),

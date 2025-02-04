@@ -45,9 +45,9 @@ class Contact(models.Model):
     
 class Municipality(models.Model):
     city_name = models.CharField(max_length=100)
-    city_id = models.IntegerField(max_length=100)
+    city_id = models.IntegerField()
     state = models.CharField(max_length=100)
-    ibge_id = models.IntegerField(max_length=7)
+    ibge_id = models.IntegerField()
 
     def __str__(self):
         return self.city_name
