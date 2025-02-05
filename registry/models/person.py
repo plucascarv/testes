@@ -1,75 +1,6 @@
 from django.db import models
+from .municipality import Municipality
 import re
-
-class Contact(models.Model):
-    id_contact = models.AutoField(primary_key=True)
-    contact_choices = [
-        ("phone", "Telefone"),
-        ("email", "Email")
-    ]
-    contact_type = models.CharField(max_length=10, choices=contact_choices)
-    contact_key = models.CharField(max_length=50, null=False, blank=False)
-
-    def __str__(self):
-        return f"{self.contact_key}"
-    
-    def validate_contact_type(self, contact_type: str):
-        if contact_type not in dict(self.contact_choices).keys():
-            raise ValueError
-        return True
-    
-    def set_contact_type(self, contact_type: str):
-        if self.validate_contact_type(contact_type) is True:
-            self.contact_type = contact_type
-            self.save()
-
-    def get_contact_type(self):
-        return self.contact_type
-    
-    def validate_contact_key(self, contact_key: str):
-        if not contact_key.strip():
-            raise ValueError
-        if self.contact_type == "phone" and not re.fullmatch(r'\d{8,15}', contact_key):
-            raise ValueError
-        if self.contact_type == "email" and not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', contact_key):
-            raise ValueError
-        return True
-
-    def set_contact_key(self, contact_key: str):
-        if self.validate_contact_key(contact_key) is True:
-            self.contact_key = contact_key
-            self.save()
-
-    def get_contact_key(self):
-        return self.contact_key
-    
-class Municipality(models.Model):
-    city_name = models.CharField(max_length=100)
-    city_id = models.IntegerField()
-    state = models.CharField(max_length=100)
-    ibge_id = models.IntegerField()
-
-    def __str__(self):
-        return self.city_name
-    
-    def get_city_id(self):
-        return self.city_id
-
-    def get_state(self):
-        return self.state
-
-    def get_name(self):
-        return self.city_name
-
-    def set_ibge_id(self, ibge_id: int):
-        self.ibge_id = ibge_id
-
-    def validate_ibge_id(self, ibge_id: int) -> bool:
-        return isinstance(ibge_id, int) and 1000000 <= ibge_id <= 9999999
-    
-    class Meta:
-        verbose_name = 'Municipality'
-        verbose_name_plural = 'Municipalities'
 
 class Person(models.Model):
     doc_type = models.CharField(max_length=50)
@@ -86,7 +17,7 @@ class Person(models.Model):
         return self.name
 
     def get_ID(self):
-        return self.doc_ident
+        return self.doc_id
 
     def get_data_cadastro(self):
         return self.data_cadastro
@@ -134,86 +65,7 @@ class Person(models.Model):
         verbose_name = 'Person'
         verbose_name_plural = 'People'
 
-class Address(models.Model):
-    # Relationship fields
-    pessoa = models.ForeignKey(
-        Person,
-        on_delete=models.CASCADE, 
-        related_name="address"
-    )
-    municipality = models.ForeignKey(
-        Municipality, 
-        on_delete=models.CASCADE, 
-        related_name='addresses'
-    )
-    
-    # Address fields
-    street = models.CharField(max_length=255)
-    number = models.CharField(max_length=10)
-    additional_info = models.CharField(max_length=255, null=True, blank=True)
-    neighborhood = models.CharField(max_length=100)
-    zipcode = models.CharField(max_length=8)
-    classification = models.CharField(max_length=11)
-    type = models.CharField(max_length=100)
-    
-    # Additional useful fields
-    is_tax_address = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return f"{self.street}, {self.number} - {self.municipality.name}"
-
-    @property
-    def formatted_address(self):
-        parts = [self.street]
-        if self.number:
-            parts.append(f"nº {self.number}")
-        if self.additional_info:
-            parts.append(self.additional_info)
-        if self.neighborhood:
-            parts.append(self.neighborhood)
-        parts.append(self.municipality.name)
-        parts.append(f"CEP: {self.format_zipcode()}")
-        return ", ".join(part for part in parts if part)
-
-    def format_zipcode(self):
-        if len(self.zipcode) == 8:
-            return f"{self.zipcode[:5]}-{self.zipcode[5:]}"
-        return self.zipcode
-    
-    # Methods
-    def get_classification(self):
-        return self.classification
-    
-    def get_type(self):
-        return self.type
-    
-    def get_street(self):
-        return self.street
-    
-    def get_number(self):
-        return self.number
-    
-    def get_complement(self):
-        return self.complement
-    
-    def get_cep(self):
-        return self.cep
-    
-    def validate_type(self, type: str) -> bool:
-        valid_types = ["Residencial", "Comercial", "Industrial"]
-        return type in valid_types
-
-    class Meta:
-        verbose_name = 'Address'
-        verbose_name_plural = 'Addresses'
-        ordering = ['-created_at']
-        indexes = [
-            models.Index(fields=['zipcode']),
-            models.Index(fields=['is_tax_address']),
-             ]
     
 class IndividualPerson(Person):
     cpf = models.CharField(max_length=14, unique=True)

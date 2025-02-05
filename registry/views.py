@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from rest_framework import viewsets
 from .models import Municipality, Person, Address
 from .serializers import MunicipalitySerializer, PersonSerializer, AddressSerializer
