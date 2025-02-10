@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Municipality, Person, Address, IndividualPerson, BusinessPerson
+from .models import Municipality, Person, Address, IndividualPerson, businessperson
 
 
 class MunicipalitySerializer(serializers.ModelSerializer):
@@ -25,6 +25,6 @@ class IndividualSerializer(PersonSerializer):  # Herda de PersonSerializer
 
 class BusinessSerializer(PersonSerializer):  # Herda de PersonSerializer
     class Meta:
-        model = BusinessPerson
+        model = businessperson.BusinessPerson
         fields = '__all__'
         
