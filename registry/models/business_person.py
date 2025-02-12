@@ -6,7 +6,7 @@ from registry.models.validate_document import ModelABCMeta, ValidateDocument
 
 class BusinessPerson(Person, ValidateDocument, metaclass=ModelABCMeta):
 
-    pessoa = models.ForeignKey(
+    person = models.ForeignKey(
         Person, on_delete=models.CASCADE, related_name="businessperson"
     )
 
