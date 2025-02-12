@@ -43,6 +43,6 @@ class IndividualSerializer(PersonSerializer):
 
 class BusinessSerializer(PersonSerializer):  # Herda de PersonSerializer
     class Meta:
-        model = BusinessPerson
+        model = businessperson.BusinessPerson
         fields = '__all__'
         
