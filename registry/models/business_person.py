@@ -1,10 +1,9 @@
 import re
 from django.db import models
 from .person import Person
-from registry.models.validate_document import ModelABCMeta, ValidateDocument
 
 
-class BusinessPerson(Person, ValidateDocument, metaclass=ModelABCMeta):
+class BusinessPerson(Person):
 
     person = models.ForeignKey(
         Person, on_delete=models.CASCADE, related_name="business_person"

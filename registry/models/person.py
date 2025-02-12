@@ -1,10 +1,12 @@
+# from abc import abstractmethod
 from django.db import models
 from registry.models.address import Address, LeanAddress
 from registry.models.contact import Contact
 from registry.models.validate_contact import ContactImplementation
+from registry.models.abc_model import ABCModel
 
 
-class Person(models.Model):
+class Person(ABCModel):
     doc_type = models.CharField(max_length=50)
     doc_id = models.CharField(max_length=50, primary_key=True)
     address = models.ForeignKey(
@@ -52,6 +54,11 @@ class Person(models.Model):
             target = Person.objects.get(name=self.name)
             newAddress = Address.objects.create(people=target, **address)
             newAddress.save()
+
+    def validate_doc(self):
+        raise NotImplementedError(
+            "Please implement document validation in concrete class"
+        )
 
     class Meta:
         verbose_name = "Person"

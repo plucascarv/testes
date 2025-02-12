@@ -1,11 +1,9 @@
 from django.db import models
-
-from registry.models.validate_document import ModelABCMeta, ValidateDocument
-from .person import Person
 import re
+from registry.models.person import Person
 
 
-class IndividualPerson(Person, ValidateDocument, metaclass=ModelABCMeta):
+class IndividualPerson(Person):
     _cpf = models.CharField(max_length=14, unique=True)
     _rg = models.CharField(max_length=20, unique=True, null=True, blank=True)
     father_name = models.CharField(max_length=255, null=True, blank=True)
