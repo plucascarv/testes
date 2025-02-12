@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Municipality(models.Model):
     city_name = models.CharField(max_length=100)
     city_id = models.IntegerField()
@@ -8,7 +9,7 @@ class Municipality(models.Model):
 
     def __str__(self):
         return self.city_name
-    
+
     def get_city_id(self):
         return self.city_id
 
@@ -23,7 +24,8 @@ class Municipality(models.Model):
 
     def validate_ibge_id(self, ibge_id: int) -> bool:
         return isinstance(ibge_id, int) and 1000000 <= ibge_id <= 9999999
-    
+
     class Meta:
-        verbose_name = 'Municipality'
-        verbose_name_plural = 'Municipalities'
+        abstract = True
+        verbose_name = "Municipality"
+        verbose_name_plural = "Municipalities"
