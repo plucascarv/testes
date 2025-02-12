@@ -2,7 +2,6 @@ import re
 from typing import TypedDict
 from django.db import models
 
-# from registry.models.person import Person
 from .municipality import Municipality
 
 
@@ -15,10 +14,6 @@ class LeanAddress(TypedDict):
 
 
 class Address(models.Model):
-    # Relationship fields
-    # person = models.ForeignKey(
-    #     Person, on_delete=models.CASCADE, related_name="address"
-    # )
     municipality = models.ForeignKey(
         Municipality, on_delete=models.CASCADE, related_name="addresses"
     )

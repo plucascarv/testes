@@ -7,7 +7,7 @@ from registry.models.validate_document import ModelABCMeta, ValidateDocument
 class BusinessPerson(Person, ValidateDocument, metaclass=ModelABCMeta):
 
     person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, related_name="businessperson"
+        Person, on_delete=models.CASCADE, related_name="business_person"
     )
 
     cnpj = models.CharField(max_length=18, unique=True)
