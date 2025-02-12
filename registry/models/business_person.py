@@ -1,6 +1,5 @@
 import re
 from django.db import models
-from .businessperson import BusinessPerson
 from .person import Person
 from registry.models.validate_document import ModelABCMeta, ValidateDocument
 
@@ -9,9 +8,6 @@ class BusinessPerson(Person, ValidateDocument, metaclass=ModelABCMeta):
 
     pessoa = models.ForeignKey(
         Person, on_delete=models.CASCADE, related_name="businessperson"
-    )
-    businessperson = models.ForeignKey(
-        BusinessPerson, on_delete=models.CASCADE, related_name="BusinessPerson"
     )
 
     cnpj = models.CharField(max_length=18, unique=True)

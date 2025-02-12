@@ -1,7 +1,8 @@
 import re
 from typing import TypedDict
 from django.db import models
-from .person import Person
+
+# from registry.models.person import Person
 from .municipality import Municipality
 
 
@@ -15,9 +16,9 @@ class LeanAddress(TypedDict):
 
 class Address(models.Model):
     # Relationship fields
-    person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, related_name="address"
-    )
+    # person = models.ForeignKey(
+    #     Person, on_delete=models.CASCADE, related_name="address"
+    # )
     municipality = models.ForeignKey(
         Municipality, on_delete=models.CASCADE, related_name="addresses"
     )
@@ -53,10 +54,10 @@ class Address(models.Model):
         if self.neighborhood:
             parts.append(self.neighborhood)
         parts.append(self.municipality.city_name)
-        parts.append(f"CEP: {self.formatted_zipcode()}")
+        parts.append(f"CEP: {self.formatted_zip_code()}")
         return ", ".join(part for part in parts if part)
 
-    def formatted_zipcode(self):
+    def formatted_zip_code(self):
         if len(self.zip_code) == 8:
             return f"{self.zip_code[:5]}-{self.zip_code[5:]}"
         return self.zip_code
@@ -117,6 +118,6 @@ class Address(models.Model):
         verbose_name_plural = "Addresses"
         ordering = ["-created_at"]
         indexes = [
-            models.Index(fields=["zipcode"]),
+            models.Index(fields=["zip_code"]),
             models.Index(fields=["is_tax_address"]),
         ]

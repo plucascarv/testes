@@ -26,6 +26,5 @@ class Municipality(models.Model):
         return isinstance(ibge_id, int) and 1000000 <= ibge_id <= 9999999
 
     class Meta:
-        abstract = True
         verbose_name = "Municipality"
         verbose_name_plural = "Municipalities"

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Municipality, Person, Address, IndividualPerson, BusinessPerson
-from .models.individualPerson import IndividualPerson
+from .models.individual_person import IndividualPerson
 
 
 class MunicipalitySerializer(serializers.ModelSerializer):

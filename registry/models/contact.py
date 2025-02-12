@@ -1,15 +1,8 @@
 from django.db import models
-
-from registry.models.person import Person
 from .validate_contact import ContactImplementation
 
 
 class Contact(models.Model):
-
-    person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, related_name="address"
-    )
-
     id_contact = models.AutoField(primary_key=True)
     contact_choices = [("phone", "Telefone"), ("email", "Email")]
     contact_type = models.CharField(max_length=10, choices=contact_choices)

@@ -43,14 +43,14 @@ class Person(models.Model):
             newContact = Contact.objects.create(
                 contact_key=contact_key,
                 contact_type=contact_type,
-                person=target,
+                people=target,
             )
             newContact.save()
 
     def add_address(self, address: LeanAddress):
         if Address.validate_address(**address):
             target = Person.objects.get(name=self.name)
-            newAddress = Address.objects.create(person=target, **address)
+            newAddress = Address.objects.create(people=target, **address)
             newAddress.save()
 
     class Meta:
